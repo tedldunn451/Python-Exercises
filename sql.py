@@ -34,18 +34,19 @@ peopleValues = (
     ('Elizabeth','Findley',27),
     ('Teresa','Findley',24)
     )
-c.executemany("INSERT INTO People VALUES(?,?,?)", peopleValues) # parameterized statement using tuples
+c.executemany("INSERT INTO People VALUES(?,?,?)", peopleValues) # parameterized statement using tuples (question marks act as place holders)
 
 # example script using parameterized statements
-import sqlite3
-firstName = raw_input("Enter your first name: ")
-lastName = raw_input("Enter your last name: ")
+import sqlite3 
+firstName = raw_input("Enter your first name: ") # get person data from user & insert into tuple
+lastName = raw_input("Enter your last name: ") 
 age = int(raw_input("Enter your age: "))
-with sqlite3.connect('test_database.db') as connection:
+personData = (firstName,lastName,age)
+with sqlite3.connect('test_database.db') as connection: # execute insert statement for supplied person data
     c = connection.cursor()
-    line = "INSERT INTO People VALUES("'+ firstName +'","'+ lastName +'","+ str(age) +")"
+    line = "INSERT INTO People VALUES(?,?,?)",personData)
 c.execute(line)
-c.execute("UPDATE People SET Age=? WHERE firstName=? AND lastName=?, (60, 'Jim', 'Findley')
+c.execute("UPDATE People SET Age=? WHERE firstName=? AND lastName=?",(60,'Jim','Findley')) # update to add another person
           
 # example of information retrieval
 import sqlite3
@@ -59,6 +60,14 @@ with sqlite3.connect('test_database.db') as connection:
           c.execute("DROP TABLE IF EXISTS People")
           c.execute("CREATE TABLE People(FirstName TEXT, LastName TEXT, Age INT)")
           c.executemany("INSERT INTO People VALUES(?,?,?)", peopleValues)
-          c.execute("SELECT FirstName, LastName FROM People WHERE Age > 30")
+          c.execute("SELECT FirstName, LastName FROM People WHERE Age > 30") # select all first/last names of people over age of 30
           for row in c.fetchall():
-              print row # the u that displays in the results stands for unicode
+              print row # the u that displays in the results stands for unicode in Python 2.7 (Python 3 stores as unicode by default)
+# orrrr to loop over one instead of all use...
+          c.execute("SELECT FirstName, LastName FROM People WHERE Age > 30")
+          while True:
+              row = c.fetchone()
+              if row is None: # if the row object is 
+                  break
+                print row
+
