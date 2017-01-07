@@ -4,7 +4,7 @@
 # Description: Drill 38 of 68 SQL and Python
 
 import sqlite3 #import sql module
-connection = sqlite3.connect(":memory") #use temporary RAM as DB
+connection = sqlite3.connect(":memory:") #use temporary RAM as DB
 c = connection.cursor() #create a means of communicating across the connection
 
 c.execute("DROP TABLE IF EXISTS Roster")
