@@ -1,17 +1,13 @@
-# Python 2.7.12
-# 
+# Version: Python 3.5.2
 # Author: Kristen Findley
-# 
-# Purpose: Create a program to see how many days, minutes, and seconds
-#          a person has lived print("Lets see how long you have lived in days, minutes, and seconds.")
+# Date: 06 January, 2017
+# Purpose: Python Drill 41 of 68 (Total days/minutes/seconds you have been alive)
 
-
-
-name = input('name: ')
-print('Now enter your age')
-age = input("age: ")
-print("Now enter what time you were born")
-days = age * 365
-minutes = age * 365 * 24 * 60
-seconds = age * 365 * 24 * 60 * 60
-print(name, ", you have been alive for ", day, " days, ", minutes, " minutes, and ", seconds, " seconds!")
+print("Let's see how long you have lived in days, minutes, and seconds.")
+name = input("Name: ")
+print("Now enter your age.")
+age = int(input("Age: ")) 
+days = age*365
+minutes = days*24*60
+seconds = minutes*60
+print(name, ", you have been alive for ", days, " days or ", minutes, " minutes or ", seconds, " seconds!")
