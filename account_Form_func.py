@@ -20,34 +20,34 @@ def create_db(self):
     conn = sqlite3.connect('db_account.db')
     with conn:
         cur = conn.cursor()
-        cur.execute("CREATE TABLE if not exists tbl_account( \
+        cur.execute("CREATE TABLE if not exists tbl_account_info( \
              ID INTEGER PRIMARY KEY AUTOINCREMENT, \
-             col_storename TEXT, \
-             col_website TEXT, \
-             col_email TEXT, \
-             col_phone TEXT, \
-             col_address TEXT, \
-             col_city TEXT, \
-             col_distance TEXT, \
-             col_owner TEXT, \
-             col_manager TEXT, \
-             col_memail TEXT, \
-             col_buyer TEXT, \
-             col_bemail TEXT, \
-             col_otheremps TEXT, \
-             col_fb TEXT, \
-             col_twitter TEXT, \
-             col_ig TEXT, \
-             col_quadrant TEXT, \
-             col_status TEXT, \
-             col_priority TEXT, \
-             col_lastcontact TEXT , \
-             col_ecommerce TEXT, \
-             col_socialcapitol TEXT, \
-             col_compbrands TEXT, \
-             col_commpartnerships TEXT, \
-             col_productmix TEXT, \
-             col_other TEXT \
+             store_name TEXT, \
+             website TEXT, \
+             email TEXT, \
+             phone TEXT, \
+             address TEXT, \
+             city TEXT, \
+             distance TEXT, \
+             owner TEXT, \
+             manager TEXT, \
+             m_email TEXT, \
+             buyer TEXT, \
+             b_email TEXT, \
+             other_emps TEXT, \
+             fb TEXT, \
+             twitter TEXT, \
+             ig TEXT, \
+             quadrant TEXT, \
+             status TEXT, \
+             priority TEXT, \
+             last_contact TEXT , \
+             ecommerce TEXT, \
+             social_cap TEXT, \
+             comp_brands TEXT, \
+             comm_partnerships TEXT, \
+             product_mix TEXT, \
+             other TEXT \
              );")
         conn.commit()
     conn.close()
@@ -59,33 +59,33 @@ def first_run(self):
         cur = conn.cursor()
         cur,count = count_records(cur)
         if count < 1:
-            cur.execute("""INSERT INTO tbl_account (col_storename, \
-            col_website, \
-            col_email, \
-            col_phone, \
-            col_address, \
-            col_city, \
-            col_distance, \
-            col_owner, \
-            col_manager, \
-            col_memail, \
-            col_buyer, \
-            col_bemail, \
-            col_otheremps, \
-            col_fb, \
-            col_twitter, \
-            col_ig, \
-            col_quadrant, \
-            col_status, \
-            col_priority, \
-            col_lastcontact, \
-            col_ecommerce, \
-            col_socialcapitol, \
-            col_compbrands, \
-            col_commpartnerships, \
-            col_productmix, \
-            col_other) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                        ('storename',
+            cur.execute("""INSERT INTO tbl_account_info (store_name, \
+            website, \
+            email, \
+            phone, \
+            address, \
+            city, \
+            distance, \
+            owner, \
+            manager, \
+            m_email, \
+            buyer, \
+            b_email, \
+            other_emps, \
+            fb, \
+            twitter, \
+            ig, \
+            quadrant, \
+            status, \
+            priority, \
+            last_contact, \
+            ecommerce, \
+            social_cap, \
+            comp_brands, \
+            comm_partnerships, \
+            product_mix, \
+            other) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                        ('store name',
                         'www.storename.com',
                         'storename@storename.com',
                         'xxx-xxx-xxxx',
@@ -94,10 +94,10 @@ def first_run(self):
                         'distance',
                         'owner',
                         'manager',
-                        'memail',
+                        'manager email',
                         'buyer',
-                        'bemail',
-                        'otheremps',
+                        'buyer email',
+                        'other emps',
                         'https://www.facebook.com/storename',
                         'https://www.twittercom/storename',
                         'https://www.instagram.com/storename',
@@ -106,17 +106,17 @@ def first_run(self):
                         'low/medium/high',
                         'mm/dd/yyyy',
                         'ecommerce',
-                        'socialcapitol',
-                        'compbrands',
-                        'commpartnerships',
-                        'productmix',
+                        'social capitol',
+                        'competitive brands',
+                        'community partnerships',
+                        'product mix',
                         'other'))
             conn.commit()
     conn.close()
 
 def count_records(cur):
     count = "" # create empty variable
-    cur.execute("""SELECT COUNT(*) FROM tbl_account""") 
+    cur.execute("""SELECT COUNT(*) FROM tbl_account_info""") 
     count = cur.fetchone()[0] # extracts count data using first index of tuple
     return cur,count
 
@@ -127,7 +127,7 @@ def onSelect(self,event):
     conn = sqlite3.connect('db_account.db')
     with conn:
         cursor = conn.cursor()
-        cursor.execute("""SELECT col_website,col_email,col_phone,col_address,col_city,col_distance,col_owner,col_manager,col_memail,col_buyer,col_bemail,col_otheremps,col_fb,col_twitter,col_ig,col_quadrant,col_status,col_priority,col_lastcontact,col_ecommerce,col_socialcapitol,col_compbrands,col_commpartnerships,col_productmix,col_other FROM tbl_account WHERE col_storename = (?)""", [value])
+        cursor.execute("""SELECT website,email,phone,address,city,distance,owner,manager,m_email,buyer,b_email,other_emps,fb,twitter,ig,quadrant,status,priority,last_contact,ecommerce,social_cap,comp_brands,comm_partnerships,product_mix,other FROM tbl_account_info WHERE store_name = (?)""", [value])
         varBody = cursor.fetchall()
         for data in varBody:
             self.txt_storename.delete(0,END)
@@ -214,37 +214,37 @@ def addToList(self):
         conn = sqlite3.connect('db_account.db')
         with conn:
             cursor = conn.cursor()
-            cursor.execute("""SELECT COUNT(col_storename) FROM tbl_account WHERE col_storename = '{}'""".format(var_storename)) # verify that account storename has not already been entered
+            cursor.execute("""SELECT COUNT(store_name) FROM tbl_account_info WHERE store_name = '{}'""".format(var_storename)) # verify that account storename has not already been entered
             count = cursor.fetchone()[0]
             chkName = count
             if chkName == 0: # if storename has not been entered, insert new values into DB
                 print("chkName: {}".format(chkName))
-                cursor.execute("""INSERT INTO tbl_account (col_storename,
-                     col_website,
-                     col_email,
-                     col_phone,
-                     col_address,
-                     col_city,
-                     col_distance,
-                     col_owner,
-                     col_manager,
-                     col_memail,
-                     col_buyer,
-                     col_bemail,
-                     col_otheremps,
-                     col_fb,
-                     col_twitter,
-                     col_ig,
-                     col_quadrant,
-                     col_status,
-                     col_priority,
-                     col_lastcontact,
-                     col_ecommerce,
-                     col_socialcapitol,
-                     col_compbrands,
-                     col_commpartnerships,
-                     col_productmix,
-                     col_other) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",(var_storename,
+                cursor.execute("""INSERT INTO tbl_account_info (store_name,
+                     website,
+                     email,
+                     phone,
+                     address,
+                     city,
+                     distance,
+                     owner,
+                     manager,
+                     m_email,
+                     buyer,
+                     b_email,
+                     other_emps,
+                     fb,
+                     twitter,
+                     ig,
+                     quadrant,
+                     status,
+                     priority,
+                     last_contact,
+                     ecommerce,
+                     social_cap,
+                     comp_brands,
+                     comm_partnerships,
+                     product_mix,
+                     other) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",(var_storename,
                           var_website,
                           var_email,
                           var_phone,
@@ -285,15 +285,15 @@ def onDelete(self):
     conn = sqlite3.connect('db_account.db')
     with conn:
         cur = conn.cursor()
-        cur.execute("""SELECT COUNT(*) FROM tbl_account""")
+        cur.execute("""SELECT COUNT(*) FROM tbl_account_info""")
         count = cur.fetchone()[0]
         if count > 1:
-            confirm = messagebox.askokcancel("Delete confirmation", "All information assiciated with ({}) \nwill be permanently deleted from the database. \n\nProceed with delete request?".format(var_select))
+            confirm = messagebox.askokcancel("Delete confirmation", "All information associated with ({}) \nwill be permanently deleted from the database. \n\nProceed with delete request?".format(var_select))
             if confirm:
                 conn = sqlite3.connect('db_account.db')
                 with conn:
                     cursor = conn.cursor()
-                    cursor.execute("""DELETE FROM tbl_account WHERE col_storename = '{}'""".format(var_select))
+                    cursor.execute("""DELETE FROM tbl_account_info WHERE store_name = '{}'""".format(var_select))
                 onDeleted(self) # call function to clear all textboxes and selected index of listbox
                 # onRefresh(self)
                 conn.commit()
@@ -368,11 +368,11 @@ def onRefresh(self):
     conn = sqlite3.connect('db_account.db')
     with conn:
         cursor = conn.cursor()
-        cursor.execute("""SELECT COUNT(*) FROM tbl_account""")
+        cursor.execute("""SELECT COUNT(*) FROM tbl_account_info""")
         count = cursor.fetchone()[0]
         i = 0
         while i < count:
-            cursor.execute("""SELECT col_storename FROM tbl_account""")
+            cursor.execute("""SELECT store_name FROM tbl_account_info""")
             varList = cursor.fetchall()[i]
             for item in varList:
                 self.lstList1.insert(0,str(item))
@@ -416,7 +416,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_website) FROM tbl_account WHERE col_website = '{}'""".format(var_website))
+            cur.execute("""SELECT COUNT(website) FROM tbl_account_info WHERE website = '{}'""".format(var_website))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -425,7 +425,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_website = '{0}' WHERE col_storename = '{1}'""".format(var_website, var_value))
+                        c.execute("""UPDATE tbl_account_info SET website = '{0}' WHERE store_name = '{1}'""".format(var_website, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -438,7 +438,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_email) FROM tbl_account WHERE col_email = '{}'""".format(var_email))
+            cur.execute("""SELECT COUNT(email) FROM tbl_account_info WHERE email = '{}'""".format(var_email))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -447,7 +447,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_email = '{0}' WHERE col_storename = '{1}'""".format(var_email, var_value))
+                        c.execute("""UPDATE tbl_account_info SET email = '{0}' WHERE store_name = '{1}'""".format(var_email, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -460,7 +460,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_phone) FROM tbl_account WHERE col_phone = '{}'""".format(var_phone))
+            cur.execute("""SELECT COUNT(phone) FROM tbl_account_info WHERE phone = '{}'""".format(var_phone))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -469,7 +469,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_phone = '{0}' WHERE col_storename = '{1}'""".format(var_phone, var_value))
+                        c.execute("""UPDATE tbl_account_info SET phone = '{0}' WHERE store_name = '{1}'""".format(var_phone, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -482,7 +482,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_address) FROM tbl_account WHERE col_address = '{}'""".format(var_address))
+            cur.execute("""SELECT COUNT(address) FROM tbl_account_info WHERE address = '{}'""".format(var_address))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -491,7 +491,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_address = '{0}' WHERE col_storename = '{1}'""".format(var_address, var_value))
+                        c.execute("""UPDATE tbl_account_info SET address = '{0}' WHERE store_name = '{1}'""".format(var_address, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -504,7 +504,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_city) FROM tbl_account WHERE col_city = '{}'""".format(var_city))
+            cur.execute("""SELECT COUNT(city) FROM tbl_account_info WHERE city = '{}'""".format(var_city))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -513,7 +513,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_city = '{0}' WHERE col_storename = '{1}'""".format(var_city, var_value))
+                        c.execute("""UPDATE tbl_account_info SET city = '{0}' WHERE store_name = '{1}'""".format(var_city, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -526,7 +526,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_distance) FROM tbl_account WHERE col_distance = '{}'""".format(var_distance))
+            cur.execute("""SELECT COUNT(distance) FROM tbl_account_info WHERE distance = '{}'""".format(var_distance))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -535,7 +535,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_distance = '{0}' WHERE col_storename = '{1}'""".format(var_distance, var_value))
+                        c.execute("""UPDATE tbl_account_info SET distance = '{0}' WHERE store_name = '{1}'""".format(var_distance, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -548,7 +548,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_owner) FROM tbl_account WHERE col_owner = '{}'""".format(var_owner))
+            cur.execute("""SELECT COUNT(owner) FROM tbl_account_info WHERE owner = '{}'""".format(var_owner))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -557,7 +557,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_owner = '{0}' WHERE col_storename = '{1}'""".format(var_owner, var_value))
+                        c.execute("""UPDATE tbl_account_info SET owner = '{0}' WHERE store_name = '{1}'""".format(var_owner, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -570,7 +570,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_manager) FROM tbl_account WHERE col_manager = '{}'""".format(var_manager))
+            cur.execute("""SELECT COUNT(manager) FROM tbl_account_info WHERE manager = '{}'""".format(var_manager))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -579,7 +579,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_manager = '{0}' WHERE col_storename = '{1}'""".format(var_manager, var_value))
+                        c.execute("""UPDATE tbl_account_info SET manager = '{0}' WHERE store_name = '{1}'""".format(var_manager, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -592,7 +592,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_memail) FROM tbl_account WHERE col_memail = '{}'""".format(var_memail))
+            cur.execute("""SELECT COUNT(m_email) FROM tbl_account_info WHERE m_email = '{}'""".format(var_memail))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -601,7 +601,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_memail = '{0}' WHERE col_storename = '{1}'""".format(var_memail, var_value))
+                        c.execute("""UPDATE tbl_account_info SET m_email = '{0}' WHERE store_name = '{1}'""".format(var_memail, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -614,7 +614,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_buyer) FROM tbl_account WHERE col_buyer = '{}'""".format(var_buyer))
+            cur.execute("""SELECT COUNT(buyer) FROM tbl_account_info WHERE buyer = '{}'""".format(var_buyer))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -623,7 +623,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_buyer = '{0}' WHERE col_storename = '{1}'""".format(var_buyer, var_value))
+                        c.execute("""UPDATE tbl_account_info SET buyer = '{0}' WHERE store_name = '{1}'""".format(var_buyer, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -636,7 +636,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_bemail) FROM tbl_account WHERE col_bemail = '{}'""".format(var_bemail))
+            cur.execute("""SELECT COUNT(b_email) FROM tbl_account_info WHERE b_email = '{}'""".format(var_bemail))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -645,7 +645,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_bemail = '{0}' WHERE col_storename = '{1}'""".format(var_bemail, var_value))
+                        c.execute("""UPDATE tbl_account_info SET b_email = '{0}' WHERE store_name = '{1}'""".format(var_bemail, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -658,7 +658,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_otheremps) FROM tbl_account WHERE col_otheremps = '{}'""".format(var_otheremps))
+            cur.execute("""SELECT COUNT(other_emps) FROM tbl_account_info WHERE other_emps = '{}'""".format(var_otheremps))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -667,7 +667,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_otheremps = '{0}' WHERE col_storename = '{1}'""".format(var_otheremps, var_value))
+                        c.execute("""UPDATE tbl_account_info SET other_emps = '{0}' WHERE store_name = '{1}'""".format(var_otheremps, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -680,7 +680,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_fb) FROM tbl_account WHERE col_fb = '{}'""".format(var_fb))
+            cur.execute("""SELECT COUNT(fb) FROM tbl_account_info WHERE fb = '{}'""".format(var_fb))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -689,7 +689,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_fb = '{0}' WHERE col_storename = '{1}'""".format(var_fb, var_value))
+                        c.execute("""UPDATE tbl_account_info SET fb = '{0}' WHERE store_name = '{1}'""".format(var_fb, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -702,7 +702,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_twitter) FROM tbl_account WHERE col_twitter = '{}'""".format(var_twitter))
+            cur.execute("""SELECT COUNT(twitter) FROM tbl_account_info WHERE twitter = '{}'""".format(var_twitter))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -711,7 +711,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_twitter = '{0}' WHERE col_storename = '{1}'""".format(var_twitter, var_value))
+                        c.execute("""UPDATE tbl_account_info SET twitter = '{0}' WHERE store_name = '{1}'""".format(var_twitter, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -724,7 +724,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_ig) FROM tbl_account WHERE col_ig = '{}'""".format(var_ig))
+            cur.execute("""SELECT COUNT(ig) FROM tbl_account_info WHERE ig = '{}'""".format(var_ig))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -733,7 +733,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_ig = '{0}' WHERE col_storename = '{1}'""".format(var_ig, var_value))
+                        c.execute("""UPDATE tbl_account_info SET ig = '{0}' WHERE store_name = '{1}'""".format(var_ig, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -746,7 +746,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_quadrant) FROM tbl_account WHERE col_quadrant = '{}'""".format(var_quadrant))
+            cur.execute("""SELECT COUNT(quadrant) FROM tbl_account_info WHERE quadrant = '{}'""".format(var_quadrant))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -755,7 +755,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_quadrant = '{0}' WHERE col_storename = '{1}'""".format(var_quadrant, var_value))
+                        c.execute("""UPDATE tbl_account_info SET quadrant = '{0}' WHERE store_name = '{1}'""".format(var_quadrant, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -768,7 +768,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_status) FROM tbl_account WHERE col_status = '{}'""".format(var_status))
+            cur.execute("""SELECT COUNT(status) FROM tbl_account_info WHERE status = '{}'""".format(var_status))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -777,7 +777,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_status = '{0}' WHERE col_storename = '{1}'""".format(var_status, var_value))
+                        c.execute("""UPDATE tbl_account_info SET status = '{0}' WHERE store_name = '{1}'""".format(var_status, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -790,7 +790,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_priority) FROM tbl_account WHERE col_priority = '{}'""".format(var_priority))
+            cur.execute("""SELECT COUNT(priority) FROM tbl_account_info WHERE priority = '{}'""".format(var_priority))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -799,7 +799,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_priority = '{0}' WHERE col_storename = '{1}'""".format(var_priority, var_value))
+                        c.execute("""UPDATE tbl_account_info SET priority = '{0}' WHERE store_name = '{1}'""".format(var_priority, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -812,7 +812,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_lastcontact) FROM tbl_account WHERE col_lastcontact = '{}'""".format(var_lastcontact))
+            cur.execute("""SELECT COUNT(last_contact) FROM tbl_account_info WHERE last_contact = '{}'""".format(var_lastcontact))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -821,7 +821,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_lastcontact = '{0}' WHERE col_storename = '{1}'""".format(var_lastcontact, var_value))
+                        c.execute("""UPDATE tbl_account_info SET last_contact = '{0}' WHERE store_name = '{1}'""".format(var_lastcontact, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -834,7 +834,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_ecommerce) FROM tbl_account WHERE col_ecommerce = '{}'""".format(var_ecommerce))
+            cur.execute("""SELECT COUNT(ecommerce) FROM tbl_account_info WHERE ecommerce = '{}'""".format(var_ecommerce))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -843,7 +843,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_ecommerce = '{0}' WHERE col_storename = '{1}'""".format(var_ecommerce, var_value))
+                        c.execute("""UPDATE tbl_account_info SET ecommerce = '{0}' WHERE store_name = '{1}'""".format(var_ecommerce, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -856,7 +856,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_socialcapitol) FROM tbl_account WHERE col_socialcapitol = '{}'""".format(var_socialcapitol))
+            cur.execute("""SELECT COUNT(social_cap) FROM tbl_account_info WHERE social_cap = '{}'""".format(var_socialcapitol))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -865,7 +865,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_socialcapitol = '{0}' WHERE col_storename = '{1}'""".format(var_socialcapitol, var_value))
+                        c.execute("""UPDATE tbl_account_info SET social_cap = '{0}' WHERE store_name = '{1}'""".format(var_socialcapitol, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -878,7 +878,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_compbrands) FROM tbl_account WHERE col_compbrands = '{}'""".format(var_compbrands))
+            cur.execute("""SELECT COUNT(comp_brands) FROM tbl_account_info WHERE comp_brands = '{}'""".format(var_compbrands))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -887,7 +887,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_compbrands = '{0}' WHERE col_storename = '{1}'""".format(var_compbrands, var_value))
+                        c.execute("""UPDATE tbl_account_info SET comp_brands = '{0}' WHERE store_name = '{1}'""".format(var_compbrands, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -900,7 +900,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_commpartnerships) FROM tbl_account WHERE col_commpartnerships = '{}'""".format(var_commpartnerships))
+            cur.execute("""SELECT COUNT(comm_partnerships) FROM tbl_account_info WHERE comm_partnerships = '{}'""".format(var_commpartnerships))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -909,7 +909,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_commpartnerships = '{0}' WHERE col_storename = '{1}'""".format(var_commpartnerships, var_value))
+                        c.execute("""UPDATE tbl_account_info SET comm_partnerships = '{0}' WHERE store_name = '{1}'""".format(var_commpartnerships, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -922,7 +922,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_productmix) FROM tbl_account WHERE col_productmix = '{}'""".format(var_productmix))
+            cur.execute("""SELECT COUNT(product_mix) FROM tbl_account_info WHERE product_mix = '{}'""".format(var_productmix))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -931,7 +931,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_productmix = '{0}' WHERE col_storename = '{1}'""".format(var_productmix, var_value))
+                        c.execute("""UPDATE tbl_account_info SET product_mix = '{0}' WHERE store_name = '{1}'""".format(var_productmix, var_value))
                         onClear(self)
                         conn.commit()
                 else:
@@ -944,7 +944,7 @@ def onUpdate(self):
         conn = sqlite3.connect('account.db')
         with conn:
             c = conn.cursor()
-            cur.execute("""SELECT COUNT(col_other) FROM tbl_account WHERE col_other = '{}'""".format(var_other))
+            cur.execute("""SELECT COUNT(other) FROM tbl_account_info WHERE other = '{}'""".format(var_other))
             count = c.fetchone()[0]
             print (count)
             if count == 0:
@@ -953,7 +953,7 @@ def onUpdate(self):
                 if response:
                     with conn:
                         c = conn.cursor()
-                        c.execute("""UPDATE tbl_account SET col_other = '{0}' WHERE col_storename = '{1}'""".format(var_other, var_value))
+                        c.execute("""UPDATE tbl_account_info SET other = '{0}' WHERE store_name = '{1}'""".format(var_other, var_value))
                         onClear(self)
                         conn.commit()
                 else:

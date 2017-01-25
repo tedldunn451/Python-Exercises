@@ -17,7 +17,7 @@ class ParentWindow(Frame): # tkinter 'Frame' inherited into 'ParentWindow' class
         # define master frame config
         self.master = master # self refers to ParentWindow class and master refers to Frame
         self.master.title('Account Form') # title of form window
-        self.master.configure(background = '#f0f0f0') # sets background color
+        # self.master.configure(background = '#f0f0f0') # sets background color
         arg = self.master
 
         # load gui from separate module to keep code clean
