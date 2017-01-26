@@ -5,10 +5,10 @@
 
 from tkinter import *
 from tkinter import ttk
-root= = Tk()
+root = Tk()
 
 # radio button (one selection from a series) and check button (binary choice)
-checkbutton = kkt.Checkbutton(root, text = 'SPAM')
+checkbutton = ttk.Checkbutton(root, text = 'SPAM')
 checkbutton.pack()
 
 # you can use all same configs demonstrated in the tkinter_Buttons.py file
