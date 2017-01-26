@@ -11,7 +11,7 @@ folderB = "/home/kristen/Documents/TechAcademy/Python/FolderB/"
 
 for i in os.listdir(folderA):
     if i.endswith(".txt"):
-        print folderA + i
+        print folderB + i
         shutil.move(folderA + i,folderB)
 
 
