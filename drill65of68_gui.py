@@ -43,5 +43,8 @@ def load_gui(self):
     self.btn_cancel = tk.Button(self.frame_main,width = 10,height = 2,text = "Cancel",command = lambda: drill65of68_func.ask_quit(self))
     self.btn_cancel.grid(row = 7,column = 1,padx = 10,pady = (0,15))
 
+    drill65of68_func.create_db(self)
+    drill65of68_func.disp_last_timestamp(self)
+
 if __name__ == "__main__":
     pass
