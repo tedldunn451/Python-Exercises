@@ -42,6 +42,8 @@ def disp_last_timestamp(self):
             last_copies = str(last_timestamp_list[3])
             last_timestamp = "This application was last run on "+last_date+" at "+last_time+" and "+last_copies+" files were copied."
             messagebox.showinfo("Last timestamp",last_timestamp)
+        else:
+            messagebox.showinfo("Last timestamp","There are no records of this program being previously run.")
     conn.close()
 
 def count_records(c):
